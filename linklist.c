@@ -343,7 +343,7 @@ void selectionSort(void)
    for(i = 0; i <totalNodes -1; i++)
    {
      q = p->pNext;
-     for( j = i+ 1; j < totalNodes; j++)
+     for( j = 1; j < totalNodes -1; j++)
      {
         if(p->index > q->index)
         {
@@ -374,7 +374,7 @@ void bubbleSort(void)
    int k;
    k = totalNodes;
 
-   for(i = 0; i < totalNodes -1; i++, k--)
+   for(i = 0; i <totalNodes -1; i++, k--)
    {
      p = pHead;
      q = p->pNext;
