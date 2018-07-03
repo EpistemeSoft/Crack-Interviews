@@ -2,112 +2,91 @@
 #include<stdlib.h>
 
 /* Link list node */
-struct Node
+typedef struct node_s 
 {
 	int data;
-	struct Node* next;
-};
+	struct node_s *pNext;
+}node_t;
 
-/* Function to remove loop. Used by detectAndRemoveLoop() */
-void removeLoop(struct Node *, struct Node *);
+/* Function to remove loop */
+void removeLoop(node_t *, node_t *);
 
 /* This function detects and removes loop in the list
 If loop was there in the list then it returns 1,
 otherwise returns 0 */
-int detectAndRemoveLoop(struct Node *list)
+int detectAndRemoveLoop(node_t *list)
 {
-	struct Node *ptr1 = list;
-	struct Node *ptr2 = list->next;
+  node_t *ptr1 = list;
+  node_t *ptr2 = list->pNext;
 
-	while (ptr2 != NULL && ptr1 != ptr2)
-	{
-		ptr1 = ptr1->next;
-		ptr2 = ptr2->next;
+  while (ptr2 != NULL && ptr1 != ptr2)
+  {
+    ptr1 = ptr1->pNext;
+    ptr2 = ptr2->pNext;
 
-		
-		if (ptr2 != NULL)
-		{
-			ptr2 = ptr2->next;
-		}
-	}
-	if(ptr2 == NULL)
-	  printf("No loop\n");
-	else
-	{
-	    removeLoop(ptr1, list);
-	}
-
-	/* Return 0 to indeciate that ther is no loop*/
-	return 0;
+    if (ptr2 != NULL)
+    {
+      ptr2 = ptr2->pNext;
+    }
+  }
+  if(ptr2 == NULL)
+    printf("No loop\n");
+  else
+    removeLoop(ptr1, list);
+  return 0;
 }
 
-/* Function to remove loop.
-loop_node --> Pointer to one of the loop nodes
-head --> Pointer to the start node of the linked list */
-void removeLoop(struct Node *loop_node, struct Node *head)
+void removeLoop(node_t *loopNode, node_t *pHead)
 {
-struct Node *ptr1;
-struct Node *ptr2;
+  node_t *ptr1;
+  node_t *ptr2;
 
-/* Set a pointer to the beging of the Linked List and
-	move it one by one to find the first node which is
-	part of the Linked List */
-ptr1 = head;
-while (1)
-{
-	/* Now start a pointer from loop_node and check if it ever
-	reaches ptr2 */
-	ptr2 = loop_node;
-	while (ptr2->next != loop_node && ptr2->next != ptr1)
-		ptr2 = ptr2->next;
-
-	/* If ptr2 reahced ptr1 then there is a loop. So break the
-		loop */
-	if (ptr2->next == ptr1)
-		break;
-
-	/* If ptr2 did't reach ptr1 then try the next node after ptr1 */
-	ptr1 = ptr1->next;
-}
-
-/* After the end of loop ptr2 is the last node of the loop. So
-	make next of ptr2 as NULL */
-ptr2->next = NULL;
+  ptr1 = pHead;
+  while (1)
+  {
+    ptr2 = loopNode;
+    while (ptr2->pNext != loopNode && ptr2->pNext != ptr1)
+		ptr2 = ptr2->pNext;
+    if (ptr2->pNext == ptr1)
+      break;
+    ptr1 = ptr1->pNext;
+  }
+  ptr2->pNext = NULL;
 }
 
 /* Function to print linked list */
-void printList(struct Node *node)
+void printList(node_t *node)
 {
-	while (node != NULL)
-	{
-		printf("%d ", node->data);
-		node = node->next;
-	}
+  while (node != NULL)
+  {
+    printf("%d ", node->data);
+    node = node->pNext;
+  }
 }
 
 struct Node *newNode(int key)
 {
-	struct Node *temp = (struct Node*)malloc(sizeof(struct Node));
-	temp->data = key;
-	temp->next = NULL;
-	return temp;
+  node_t *temp = (node_t*)malloc(sizeof(node_t));
+  temp->data = key;
+  temp->pNext = NULL;
+  return temp;
 }
 
 /* Drier program to test above function*/
 int main()
 {
-	struct Node *head = newNode(50);
-	head->next = newNode(20);
-	head->next->next = newNode(15);
-	head->next->next->next = newNode(4);
-	head->next->next->next->next = newNode(10);
+  node_t *head = newNode(50);
+  head->pNext = newNode(20);
+  head->pNext->pNext = newNode(15);
+  head->pNext->pNext->pNext = newNode(4);
+  head->pNext->pNext->pNext->pNext = newNode(10);
 
-    printList(head);
+  printList(head);
 	/* Create a loop for testing */
-	head->next->next->next->next->next = head->next->next;
-	detectAndRemoveLoop(head);
+  head->next->next->next->next->next = head->next->next;
+  detectAndRemoveLoop(head);
 
-	printf("\n Linked List after removing loop \n");
-	printList(head);
-	return 0;
+  printf("\n Linked List after removing loop \n");
+  printList(head);
+  return 0;
 }
