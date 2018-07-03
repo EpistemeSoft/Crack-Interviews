@@ -12,3 +12,13 @@ int bitcount(unsigned x)
   }
   return count; 
 }
+
+main()
+{
+   unsigned in x= 10;
+   int ret = 0;
+   
+   ret = bitcount(x);
+   printf("Number of bits in x is: %d\n", ret);
+ }
+ 
