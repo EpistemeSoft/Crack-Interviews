@@ -4,8 +4,7 @@
 #include<assert.h>
 
 /* Link list node */
-typedef struct node_s
-{
+typedef struct node_s{
   int data;
   struct node_s *pNext;
 }node_t;
